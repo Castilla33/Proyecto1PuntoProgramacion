@@ -1964,7 +1964,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             int din = en.dropDinero();
             int exp = en.dropExp();
             if (jug.getPuntosSalud() > 0 && en.getPuntosSalud() > 0) {
-                terminar1.setText("La batalla aún no ha terminado! No puedes salir de la arena todavía");
+                avisoTerminar.setText("La batalla aún no ha terminado! No puedes salir de la arena todavía");
             } else if (en.getPuntosSalud() <= 0) {
                 terminar1.setText("Has ganado: " + din + " monedas y " + exp + " puntos de experiencia!");
                 inv.setDinero(inv.getDinero() + din);
@@ -1974,7 +1974,25 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     jug.setNivel(jug.getNivel() + 1);
                     terminar2.setText("Has subido al nivel: " + jug.getNivel());
                 }
-                // Ida al menú
+
+                avisoPociones.setText("");
+                nombreJug.setText(jug.getNombre());
+                saludJug.setText(jug.getPuntosSalud() + "/" + jug.getVidaMaxima());
+                ataqueJug.setText(jug.getPuntosAtaque() + "");
+                defensaJug.setText(jug.getDefensa() + "/" + jug.getDefensaMaxima());
+                dineroJug.setText(inv.getDinero() + "");
+                jugObj.setText(inv.objetosTotales() + "/" + inv.getObjetosMaximos());
+                nivJug.setText(jug.getNivel() + "/3");
+                expJug.setText(jug.getExperiencia() + "/50");
+                if (inv.objetos.containsKey("Pocion")) {
+                    cantPociones.setText(inv.objetos.get("Pocion") + "");
+                } else {
+                    cantPociones.setText("0");
+                }
+
+                panelNavBar.setVisible(true);
+                CardLayout cl = (CardLayout) (panelContenedor.getLayout());
+                cl.show(panelContenedor, "panelInventario");
             } else if (jug.getPuntosSalud() <= 0) {
                 terminar1.setText("Has sido derrotado, huyes de la arena con las pocas fuerzas que te quedan");
                 terminar2.setText("Pierdes: " + din + " monedas.");
@@ -1983,26 +2001,26 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 if (inv.getDinero() <= 0) {
                     inv.setDinero(0);
                 }
-            }
 
-            avisoPociones.setText("");
-            nombreJug.setText(jug.getNombre());
-            saludJug.setText(jug.getPuntosSalud() + "/" + jug.getVidaMaxima());
-            ataqueJug.setText(jug.getPuntosAtaque() + "");
-            defensaJug.setText(jug.getDefensa() + "/" + jug.getDefensaMaxima());
-            dineroJug.setText(inv.getDinero() + "");
-            jugObj.setText(inv.objetosTotales() + "/" + inv.getObjetosMaximos());
-            nivJug.setText(jug.getNivel() + "/3");
-            expJug.setText(jug.getExperiencia() + "/50");
-            if (inv.objetos.containsKey("Pocion")) {
-                cantPociones.setText(inv.objetos.get("Pocion") + "");
-            } else {
-                cantPociones.setText("0");
-            }
+                avisoPociones.setText("");
+                nombreJug.setText(jug.getNombre());
+                saludJug.setText(jug.getPuntosSalud() + "/" + jug.getVidaMaxima());
+                ataqueJug.setText(jug.getPuntosAtaque() + "");
+                defensaJug.setText(jug.getDefensa() + "/" + jug.getDefensaMaxima());
+                dineroJug.setText(inv.getDinero() + "");
+                jugObj.setText(inv.objetosTotales() + "/" + inv.getObjetosMaximos());
+                nivJug.setText(jug.getNivel() + "/3");
+                expJug.setText(jug.getExperiencia() + "/50");
+                if (inv.objetos.containsKey("Pocion")) {
+                    cantPociones.setText(inv.objetos.get("Pocion") + "");
+                } else {
+                    cantPociones.setText("0");
+                }
 
-            panelNavBar.setVisible(true);
-            CardLayout cl = (CardLayout) (panelContenedor.getLayout());
-            cl.show(panelContenedor, "panelInventario");
+                panelNavBar.setVisible(true);
+                CardLayout cl = (CardLayout) (panelContenedor.getLayout());
+                cl.show(panelContenedor, "panelInventario");
+            }
 
         }
 
@@ -2400,7 +2418,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         /*
         Botón del panel de escape para salir del juego.
          */
-        
+
         System.exit(0);
     }//GEN-LAST:event_jButton24ActionPerformed
 
@@ -3075,16 +3093,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             vidaEn.setText(en.getPuntosSalud() + "");
 
             //Turno enemigo
-        /*
+            /*
         Este calcula el daño que realiza en la vida del jugador, según dado y la defensa del jugador.
-        */
+             */
             if (en.getPuntosSalud() <= 0) {
                 acciones1.setText("Has ganado!");
                 acciones2.setText("");
                 avisoTerminar.setText("Has derrotado al enemigo! Pulsa 'Terminar'");
                 en.setPuntosSalud(0);
             } else if (en.getPuntosSalud() > 0) {
-                int ajuste = 0;
+                int ajuste;
                 if (dadoEn < 2) {
                     if (jug.getDefensa() > en.getPuntosAtaque()) {
                         acciones2.setText("El enemigo no te hace daño!");
@@ -3148,7 +3166,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         Botón usar poción en combate, este comprueba que ambos estén vivos y de estarlo, comprueba si el jugador tiene pociones, de tenerlas
         cura 4 puntos de salud.
          */
-        
+
         if (jug.getPuntosSalud() > 0 && en.getPuntosSalud() > 0) {
             if (inv.objetos.containsKey("Pocion")) {
                 acciones1.setText("Has usado: Pocion. Recuperas 4 puntos de salud.");
